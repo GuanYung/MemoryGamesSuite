@@ -1,70 +1,56 @@
 # 🧠 Memory Games Suite
 
-A collection of browser-based memory training games built with vanilla JavaScript.  
-Train your brain, track your progress, and challenge yourself!
+A premium, browser-based cognitive training dashboard built with vanilla JavaScript and Python FastAPI.  
+Train your brain, track your progress, and climb the global leaderboards in our high-tech "Orbital Command" environment.
 
 **🔗 [Play Now →](https://guanyung.github.io/MemoryGamesSuite/)**
 
 ---
 
-## 🎮 Games
+## 🎮 Training Modules
 
 | Game | Status | Description |
 |------|--------|-------------|
-| 🃏 Card Matching | ✅ Available | Flip cards and match pairs with 3D animations. 3 difficulty levels. |
-| 🔢 Number Memory | 🔜 Coming Soon | Memorize increasingly longer number sequences. |
-| 📝 Word Memory | 🔜 Coming Soon | Remember and recall words from a growing list. |
-| ♠️ Poker Card Memory | 🔜 Coming Soon | Memorize poker hands and card sequences. |
+| 🃏 Card Matching | ✅ Available | 3D visual memory test with multiple difficulty levels. |
+| 🔢 Number Memory | ✅ Available | Sequential recall of increasingly longer digits. |
+| 📝 Word Memory | ✅ Available | Verbal memory challenge across thousands of words. |
+| ♠️ Poker Card Memory | ✅ Available | Memory test for card sequences and precise hands. |
 
-## ✨ Features
+## ✨ Key Features
 
-- **Premium dark UI** with glassmorphism, smooth gradients, and micro-animations
-- **3D card flip** animations using CSS transforms
-- **Multiple difficulty levels** (Easy, Medium, Hard)
-- **Local score tracking** — your best scores are saved in the browser
-- **Fully responsive** — plays great on desktop and mobile
-- **Zero dependencies** — built with vanilla HTML/CSS/JS
+- **Orbital Command HUD**: Premium dark UI with glassmorphism, mesh gradients, and micro-animations.
+- **FastAPI Leaderboards**: Real-time global ranking system with persistent scoring.
+- **Dynamic Difficulty**: Procedural challenge scaling for all modules.
+- **Local & Global Sync**: Seamlessly tracks your best scores locally and globally.
+- **100% Core JS**: Built with high-performance vanilla JS core — zero framework bloat.
 
 ## 🛠 Tech Stack
 
-- **Vite** — Fast build tool & dev server
-- **Vanilla JavaScript** — No framework, easy to understand and maintain
-- **Vanilla CSS** — Custom design system with CSS custom properties
-- **GitHub Pages** — Free static hosting
+- **Frontend**: Vite 8, Vanilla JavaScript, CSS3 (Transforms, Transitions, Filters).
+- **Backend**: Python 3.11+, FastAPI, SQLAlchemy, SQLite (Development).
+- **Tooling**: Vitest (Unit Testing), GitHub Actions (CI/CD).
 
-## 🚀 Getting Started
+## 🧑‍💻 Developer Guide
 
-```bash
-# Clone the repo
-git clone https://github.com/GuanYung/MemoryGamesSuite.git
-
-# Install dependencies
-npm install
-
-# Start dev server
-npm run dev
-
-# Build for production
-npm run build
-```
-
-## 📖 My Journey
-
-This project is my portfolio piece and learning journey. Each game represents a new skill learned. Read more on the [Journey page](#/journey) inside the app.
+If you want to run the suite locally, contribute new modules, or inspect the backend, please see the **[Developer Guide (DEVELOPER.md)](./DEVELOPER.md)** for:
+- Environment requirements (Node 18+, Python 3.11).
+- Setting up the local FastAPI server.
+- Running the Vite frontend.
+- Executing the test suite.
 
 ## 🗺 Roadmap
 
-- [ ] Number Memory game
-- [ ] Word Memory game
-- [ ] Poker Card Memory game
-- [ ] Python FastAPI backend for user accounts
-- [ ] Global leaderboards
-- [ ] Social features & challenges
+- [x] All 4 Core Games
+- [x] Python FastAPI backend integration
+- [x] Global leaderboards
+- [ ] User authentication & profiles
+- [ ] Daily cognitive challenge mode
+- [ ] Brain performance analytics dashboard
 
-## 📝 License
+## 📄 License
 
-MIT — Feel free to fork and build your own memory games!
+MIT — Build your own cognitive empire.
 
 ---
 
-Built with ❤️ and vanilla JS.
+Built with ❤️ and high-performance vanilla JS + Gemini AI.

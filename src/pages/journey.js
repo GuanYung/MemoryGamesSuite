@@ -16,9 +16,9 @@ const TIMELINE_ENTRIES = [
     content: 'Built the Card Matching game with 3D flip animations, multiple difficulty levels, and local score tracking. Learned about CSS 3D transforms, vanilla JavaScript state management, and responsive design.',
   },
   {
-    date: 'Coming Soon',
-    title: '🔢 Number Memory',
-    content: 'Next up: a number memory game where sequences get longer and longer. Planning to build this to strengthen my understanding of game state and timing mechanics.',
+    date: 'March 2026',
+    title: '🔢 Number Memory Added',
+    content: 'Built a highly customizable Number Memory game. Implemented advanced configurations so players can choose between Single Digits or Double Digits, and decide whether they want a fixed-length memory test or an infinitely scaling progressive level-up challenge. Also added an automated testing suite using Vitest achieving 81% code coverage before launching this game.',
   },
   {
     date: 'Future',
@@ -36,22 +36,20 @@ export function renderJourney(appEl) {
   appEl.innerHTML = '';
   appEl.appendChild(createNavbar());
 
-  const page = createElement('main', { className: 'page container' });
+  const page = createElement('main', { className: 'page' });
+  const pageContent = createElement('div', { className: 'page-content' });
 
-  const journey = createElement('div', { className: 'journey' }, [
-    // Back button
-    createElement('a', {
-      className: 'back-btn',
-      href: '#/',
-      innerHTML: '← Back to Games',
-    }),
-
+  const journey = createElement('div', { 
+    className: 'journey',
+    style: 'max-width: 800px; margin: 0 auto;'
+  }, [
     // Hero
-    createElement('div', { className: 'journey__hero animate-fade-in' }, [
-      createElement('h1', { className: 'journey__title', textContent: 'My Journey' }),
+    createElement('div', { className: 'journey__hero animate-fade-in', style: 'margin-bottom: 3rem;' }, [
+      createElement('h1', { className: 'journey__title', textContent: 'System Log: Development Journey' }),
       createElement('p', {
         className: 'journey__intro',
-        textContent: 'This project is more than just a collection of games — it\'s my story of learning, building, and growing as a developer. Every feature represents a lesson learned and a challenge overcome.',
+        style: 'color: var(--color-text-secondary);',
+        textContent: 'Loading developmental chronicles... Every feature represents a lesson learned and a challenge overcome.',
       }),
     ]),
 
@@ -68,7 +66,18 @@ export function renderJourney(appEl) {
     ),
   ]);
 
-  page.appendChild(journey);
+  const statusBar = createElement('footer', { className: 'status-bar' }, [
+    createElement('div', { className: 'status-bar__links' }, [
+      createElement('span', { textContent: `[ LOG ANALYZER: ACTIVE ]`, style: 'color: var(--color-accent-blue);' }),
+    ]),
+    createElement('div', { style: 'display: flex; gap: 1.5rem;' }, [
+      createElement('a', { className: 'status-bar__link', href: '#/', textContent: 'BACK TO TERMINAL' }),
+    ]),
+  ]);
+
+  pageContent.appendChild(journey);
+  page.appendChild(pageContent);
+  page.appendChild(statusBar);
   appEl.appendChild(page);
 
   return null;

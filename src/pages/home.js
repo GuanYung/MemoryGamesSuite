@@ -21,7 +21,7 @@ const GAMES = [
     desc: 'Memorize increasingly longer number sequences. How far can you go?',
     icon: '🔢',
     theme: 'pink',
-    status: 'coming',
+    status: 'available',
     path: '/games/number-memory',
   },
   {
@@ -30,16 +30,16 @@ const GAMES = [
     desc: 'Remember and recall words from a growing list. Challenge your verbal memory.',
     icon: '📝',
     theme: 'green',
-    status: 'coming',
+    status: 'available',
     path: '/games/word-memory',
   },
   {
     id: 'poker-memory',
     title: 'Poker Card Memory',
-    desc: 'Memorize poker hands, suits, and sequences. A card shark\'s ultimate test.',
+    desc: 'Memorize and recall a precise sequence of playing cards. A high-stakes test of sequential recall.',
     icon: '♠️',
     theme: 'warm',
-    status: 'coming',
+    status: 'available',
     path: '/games/poker-memory',
   },
 ];
@@ -49,6 +49,7 @@ function createGameCard(game) {
 
   const card = createElement('button', {
     className: `game-card game-card--${game.theme} animate-fade-in-up`,
+    style: 'padding: 1.5rem; display: flex; align-items: flex-start; gap: 1rem;',
     id: `game-card-${game.id}`,
     onClick: () => {
       if (isAvailable) {
@@ -56,19 +57,26 @@ function createGameCard(game) {
       }
     },
   }, [
-    createElement('div', { className: 'game-card__icon', textContent: game.icon }),
-    createElement('h3', { className: 'game-card__title', textContent: game.title }),
-    createElement('p', { className: 'game-card__desc', textContent: game.desc }),
-    createElement('div', { className: 'game-card__meta' }, [
-      createElement('span', {
-        className: `game-card__badge ${isAvailable ? 'game-card__badge--available' : 'game-card__badge--coming'}`,
-        textContent: isAvailable ? '● Play Now' : '◌ Coming Soon',
-      }),
-    ]),
+    createElement('div', { 
+      className: 'game-card__icon', 
+      textContent: game.icon,
+      style: 'width: 48px; height: 48px; min-width: 48px; margin-bottom: 0;'
+    }),
+    createElement('div', { style: 'flex: 1;' }, [
+      createElement('h3', { className: 'game-card__title', textContent: game.title, style: 'font-size: 1.1rem; margin-bottom: 0.25rem;' }),
+      createElement('p', { className: 'game-card__desc', textContent: game.desc, style: 'font-size: 0.8rem; margin-bottom: 0.75rem; -webkit-line-clamp: 2; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden;' }),
+      createElement('div', { className: 'game-card__meta' }, [
+        createElement('span', {
+          className: `game-card__badge ${isAvailable ? 'game-card__badge--available' : 'game-card__badge--coming'}`,
+          textContent: isAvailable ? 'Play Now' : 'Soon',
+          style: 'padding: 2px 8px; font-size: 0.7rem;'
+        }),
+      ]),
+    ])
   ]);
 
   if (!isAvailable) {
-    card.style.opacity = '0.6';
+    card.style.opacity = '0.5';
     card.style.cursor = 'default';
   }
 
@@ -81,92 +89,53 @@ export function renderHome(appEl) {
   appEl.innerHTML = '';
   appEl.appendChild(createNavbar());
 
-  const page = createElement('main', { className: 'page container' });
+  const page = createElement('main', { className: 'page' });
+  const pageContent = createElement('div', { className: 'page-content' });
 
-  // Hero
-  const hero = createElement('section', { className: 'hero', id: 'hero-section' }, [
-    createElement('div', {
-      className: 'hero__badge',
-      innerHTML: '✨ <span>Free & Open Source Brain Training</span>',
-    }),
-    createElement('h1', { className: 'hero__title' }, [
-      document.createTextNode('Train Your '),
-      createElement('span', { className: 'hero__title-gradient', textContent: 'Memory' }),
+  // Dashboard Header (Simplified Hero)
+  const dashboardHeader = createElement('header', { 
+    className: 'animate-fade-in',
+    style: 'display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 2rem;'
+  }, [
+    createElement('div', { 
+      style: 'color: var(--color-accent-blue); text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; font-weight: bold;' 
+    }, 'System: Memory Suite v1.0.4'),
+    createElement('h1', { 
+      className: 'hero__title', 
+      style: 'font-size: 2.5rem; text-align: left; margin: 0;' 
+    }, [
+      document.createTextNode('Welcome back, '),
+      createElement('span', { className: 'hero__title-gradient', textContent: 'Commander' }),
     ]),
     createElement('p', {
-      className: 'hero__subtitle',
-      textContent: 'Challenge yourself with a collection of memory games designed to sharpen your mind. Track your progress and compete with yourself.',
+      style: 'color: var(--color-text-secondary); max-width: 600px;',
+      textContent: 'Select a training module to begin your cognitive exercise.',
     }),
-    createElement('div', { className: 'hero__actions' }, [
-      createElement('a', {
-        className: 'btn btn--primary btn--lg',
-        href: '#/games/card-match',
-        id: 'hero-play-btn',
-        textContent: '🎮  Start Playing',
-      }),
-      createElement('a', {
-        className: 'btn btn--secondary btn--lg',
-        href: '#/journey',
-        id: 'hero-journey-btn',
-        textContent: '📖  My Journey',
-      }),
+  ]);
+
+  // Main Dashboard Grid
+  const dashboardGrid = createElement('div', { 
+    style: 'display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;' 
+  }, GAMES.map(createGameCard));
+
+  pageContent.appendChild(dashboardHeader);
+  pageContent.appendChild(dashboardGrid);
+
+  // Status Bar
+  const statusBar = createElement('footer', { className: 'status-bar' }, [
+    createElement('div', { className: 'status-bar__links' }, [
+      createElement('span', { textContent: `[ STATUS: READY ]`, style: 'color: var(--color-accent-green);' }),
+      createElement('span', { textContent: `[ GAMES PLAYED: ${totalPlayed} ]` }),
+    ]),
+    createElement('div', { style: 'display: flex; gap: 1.5rem;' }, [
+      createElement('a', { className: 'status-bar__link', href: 'https://github.com/GuanYung', target: '_blank', textContent: 'SOURCE' }),
+      createElement('span', { textContent: `© ${new Date().getFullYear()}` }),
     ]),
   ]);
 
-  // Stats pill
-  if (totalPlayed > 0) {
-    const statsPill = createElement('div', {
-      className: 'hero__badge',
-      style: 'margin-top: 1.5rem;',
-      textContent: `🏆 ${totalPlayed} game${totalPlayed !== 1 ? 's' : ''} played so far`,
-    });
-    hero.appendChild(statsPill);
-  }
-
-  // Games section
-  const gamesSection = createElement('section', { id: 'games-section' }, [
-    createElement('div', { className: 'section-header' }, [
-      createElement('span', { className: 'section-header__tag', textContent: 'Games' }),
-      createElement('h2', { className: 'section-header__title', textContent: 'Choose Your Challenge' }),
-      createElement('p', {
-        className: 'section-header__subtitle',
-        textContent: 'Each game targets different aspects of memory. Start with Card Matching and unlock more games as we grow!',
-      }),
-    ]),
-    createElement('div', { className: 'games-grid stagger-children' },
-      GAMES.map(createGameCard)
-    ),
-  ]);
-
-  page.appendChild(hero);
-  page.appendChild(gamesSection);
-
-  // Footer
-  const footer = createElement('footer', { className: 'footer' }, [
-    createElement('div', { className: 'footer__links' }, [
-      createElement('a', {
-        className: 'footer__link',
-        href: '#/',
-        textContent: 'Games',
-      }),
-      createElement('a', {
-        className: 'footer__link',
-        href: '#/journey',
-        textContent: 'Journey',
-      }),
-      createElement('a', {
-        className: 'footer__link',
-        href: 'https://github.com/GuanYung',
-        target: '_blank',
-        rel: 'noopener',
-        textContent: 'GitHub',
-      }),
-    ]),
-    createElement('p', { textContent: `© ${new Date().getFullYear()} Memory Games Suite. Built with ❤️ and vanilla JS.` }),
-  ]);
-
-  page.appendChild(footer);
+  page.appendChild(pageContent);
+  page.appendChild(statusBar);
   appEl.appendChild(page);
 
-  return null; // no cleanup needed
+  return null;
 }

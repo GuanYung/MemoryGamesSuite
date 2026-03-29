@@ -47,10 +47,13 @@ export function createElement(tag, props = {}, children = []) {
     }
   });
 
-  children.forEach(child => {
-    if (typeof child === 'string') {
+  // Ensure children is an array
+  const childrenArray = Array.isArray(children) ? children : [children];
+
+  childrenArray.forEach(child => {
+    if (typeof child === 'string' || typeof child === 'number') {
       el.appendChild(document.createTextNode(child));
-    } else if (child) {
+    } else if (child instanceof Node) {
       el.appendChild(child);
     }
   });

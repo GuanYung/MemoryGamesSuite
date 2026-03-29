@@ -42,7 +42,7 @@ export function createNavbar() {
     id: 'navbar-logo',
   }, [
     createElement('div', { className: 'navbar__logo-icon', textContent: '🧠' }),
-    createElement('span', { textContent: 'MemoryGames' }),
+    createElement('span', { textContent: 'Train Your Memory' }),
   ]);
 
   return createElement('header', { className: 'navbar' }, [

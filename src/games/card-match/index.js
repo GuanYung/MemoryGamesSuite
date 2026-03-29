@@ -5,6 +5,7 @@ import { CARD_EMOJIS, DIFFICULTY } from './config.js';
 import { shuffleArray, formatTime, createElement, createConfetti } from '../../utils/helpers.js';
 import { saveScore, getBestScore } from '../../utils/storage.js';
 import { createNavbar } from '../../components/navbar.js';
+import { createLeaderboardPanel } from '../../components/leaderboard.js';
 
 const GAME_ID = 'card-match';
 
@@ -227,6 +228,13 @@ export function renderCardMatch(appEl) {
       ]),
     ]);
 
+    // Global Leaderboard
+    const modal = overlay.querySelector('.modal');
+    modal.style.overflowY = 'auto';
+    modal.style.maxHeight = '80vh';
+    createLeaderboardPanel(GAME_ID, state.difficulty, score)
+      .then(panel => modal.appendChild(panel));
+
     // Close on overlay click
     overlay.addEventListener('click', (e) => {
       if (e.target === overlay) overlay.remove();
@@ -241,26 +249,16 @@ export function renderCardMatch(appEl) {
 
     const config = DIFFICULTY[state.difficulty];
 
-    const page = createElement('main', { className: 'page container' });
-    const gameWrapper = createElement('div', { className: 'card-game' });
-
-    // Back button
-    gameWrapper.appendChild(createElement('a', {
-      className: 'back-btn',
-      href: '#/',
-      innerHTML: '← Back to Games',
-    }));
+    const page = createElement('main', { className: 'page' });
+    const pageContent = createElement('div', { className: 'page-content' });
+    const gameWrapper = createElement('div', { className: 'card-game', style: 'max-width: 800px; margin: 0 auto;' });
 
     // Header
-    gameWrapper.appendChild(createElement('div', { className: 'card-game__header animate-fade-in' }, [
-      createElement('h1', { className: 'card-game__title' }, [
+    gameWrapper.appendChild(createElement('div', { className: 'card-game__header animate-fade-in', style: 'margin-bottom: 1.5rem;' }, [
+      createElement('h1', { className: 'card-game__title', style: 'font-size: 1.5rem;' }, [
         createElement('span', { className: 'card-game__title-icon', textContent: '🃏' }),
         document.createTextNode('Card Matching'),
       ]),
-      createElement('p', {
-        className: 'card-game__subtitle',
-        textContent: 'Find all matching pairs. Fewer moves = better score!',
-      }),
     ]));
 
     // Difficulty selector
@@ -275,31 +273,11 @@ export function renderCardMatch(appEl) {
     });
     gameWrapper.appendChild(diffSelector);
 
-    // Stats bar
-    const best = getBestScore(GAME_ID, state.difficulty);
-    gameWrapper.appendChild(createElement('div', { className: 'stats-bar animate-fade-in' }, [
-      createElement('div', { className: 'stats-bar__item' }, [
-        createElement('div', { className: 'stats-bar__value', id: 'stat-moves', textContent: '0' }),
-        createElement('div', { className: 'stats-bar__label', textContent: 'Moves' }),
-      ]),
-      createElement('div', { className: 'stats-bar__item' }, [
-        createElement('div', { className: 'stats-bar__value', id: 'stat-timer', textContent: '00:00' }),
-        createElement('div', { className: 'stats-bar__label', textContent: 'Time' }),
-      ]),
-      createElement('div', { className: 'stats-bar__item' }, [
-        createElement('div', { className: 'stats-bar__value', id: 'stat-pairs', textContent: `0/${config.pairs}` }),
-        createElement('div', { className: 'stats-bar__label', textContent: 'Pairs' }),
-      ]),
-      createElement('div', { className: 'stats-bar__item' }, [
-        createElement('div', { className: 'stats-bar__value', textContent: best ? best.score : '—' }),
-        createElement('div', { className: 'stats-bar__label', textContent: 'Best' }),
-      ]),
-    ]));
-
     // Card grid
     const grid = createElement('div', {
       className: `card-grid card-grid--${state.difficulty} stagger-children`,
       id: 'card-grid',
+      style: 'margin-top: 1rem;'
     });
 
     state.cards.forEach((card, index) => {
@@ -316,7 +294,28 @@ export function renderCardMatch(appEl) {
     });
 
     gameWrapper.appendChild(grid);
-    page.appendChild(gameWrapper);
+    pageContent.appendChild(gameWrapper);
+
+    const best = getBestScore(GAME_ID, state.difficulty);
+    const statusBar = createElement('footer', { className: 'status-bar' }, [
+      createElement('div', { className: 'status-bar__links' }, [
+        createElement('span', { textContent: `MOVES: ` }, [
+          createElement('span', { id: 'stat-moves', textContent: state.moves, style: 'color: var(--color-text-primary); font-weight: bold;' })
+        ]),
+        createElement('span', { textContent: `TIME: ` }, [
+          createElement('span', { id: 'stat-timer', textContent: formatTime(state.timer), style: 'color: var(--color-text-primary); font-weight: bold;' })
+        ]),
+        createElement('span', { textContent: `PAIRS: ` }, [
+          createElement('span', { id: 'stat-pairs', textContent: `${state.matchedPairs.size}/${config.pairs}`, style: 'color: var(--color-text-primary); font-weight: bold;' })
+        ]),
+      ]),
+      createElement('div', { style: 'display: flex; gap: 1rem;' }, [
+        createElement('span', { textContent: `BEST: ${best ? best.score : '—'}` })
+      ])
+    ]);
+
+    page.appendChild(pageContent);
+    page.appendChild(statusBar);
     appEl.appendChild(page);
   }
 
